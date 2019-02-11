@@ -1,5 +1,9 @@
-# Photo Editor
-# Written by Trevor and CJ
+'''
+Photo Editor
+Written by Trevor and CJ
+For Dr. Morias' PLTW CSP Class
+Febuary 6th, 2019
+'''
 
 import os,PIL
 from PIL import ImageEnhance, ImageOps, Image
@@ -18,7 +22,11 @@ for entry in directory_list:
         image_list += [image]
     except IOError:
         pass # do nothing with errors tying to open non-images
-
+   
+'''
+Functions are defined below
+These functions take a PIL image as an input and return an image
+''' 
 def save(image): # Function to save the image with an inputted file name
     name = raw_input('What would you like to name the new file? ') + '.png'
     new_directory = os.path.join(os.getcwd(), 'modified')
@@ -35,6 +43,7 @@ def brighten(image): # function to brighten images with an inputted brightness c
     return enhancer.enhance(float(input('What factor would you like to multiply the brightness by? ')))
 
 def invert(image): # Inverts the inputted image
+    image = image.convert('RGB')
     return ImageOps.invert(image)
 
 def resize(image): # Resizes the inputted image
@@ -57,6 +66,10 @@ def blend(image): # Blends two images
     second_image = second_image.convert('RGBA').resize(image.size, Image.ANTIALIAS)
     return Image.blend(image, second_image, alpha=0.5)
 
+'''
+Main while loop is below
+This handles user input, finding files, and flow control in general
+''' 
 while 'y' in raw_input('Would you like to edit an image? '): # Main loop
     for f in file_list: print str(file_list.index(f) + 1) + ') ' + f  # list files
     image = image_list[int(input('Choose photo to edit by id: '))-1]
@@ -74,4 +87,3 @@ while 'y' in raw_input('Would you like to edit an image? '): # Main loop
         elif selection == 5: image = blend(image)
         else: print 'Invalid selection!'
     save(image) # saves the image
-        
